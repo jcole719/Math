@@ -27,8 +27,8 @@ public:
     Vector operator - (Vector v2);
     friend Vector operator * (Matrix m, Vector v);
     
-    Number dot(Vector v);
-    Vector cross(Vector v);
+    Number dot(Vector v2);
+    Vector cross(Vector v2);
     
     void print();
     

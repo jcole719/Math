@@ -2,7 +2,8 @@
 
 Vector Vector::operator - ()
 {
-    Vector result(getDimension());
+    int n = getDimension();
+    Vector result(n);
     for (int i = 0; i < n; i++) {
         result.setNumber(i,-vec[i]);
     }
@@ -11,8 +12,9 @@ Vector Vector::operator - ()
 
 Vector Vector::operator + (Vector v2)
 {
-    Vector result(getDimension());
-    if (getDimension() != v2.getDimension) {
+    int n = getDimension();
+    Vector result(n);
+    if (n != v2.getDimension()) {
         return result;
     }
     for (int i = 0; i < n; i++) {
@@ -23,8 +25,9 @@ Vector Vector::operator + (Vector v2)
 
 Vector Vector::operator - (Vector v2)
 {
-    Vector result(getDimension());
-    if (getDimension() != v2.getDimension) {
+    int n = getDimension();
+    Vector result(n);
+    if (n != v2.getDimension()) {
         return result;
     }
     for (int i = 0; i < n; i++) {
@@ -48,6 +51,20 @@ Vector operator * (Matrix m, Vector v)
     }
     return result;
 }
+
+Number Vector::dot(Vector v2)
+{
+    int n = getDimension();
+    Number result;
+    if (n != v2.getDimension()) {
+        return result;
+    }
+    for (int i = 0; i < n; i++) {
+        result += vec[i] * v2.getNumber(i);
+    }
+    return result;
+}
+    
 
 void Vector::print()
 {
