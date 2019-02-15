@@ -5,6 +5,7 @@
 #include <vector>
 #include "Number.h"
 
+#include <iostream>
 using namespace std;
 
 class Matrix
@@ -23,12 +24,13 @@ public:
     
     // Overload operators
     Matrix operator - ();
-    Matrix operator + (Matrix n2);
-    Matrix operator - (Matrix n2);
-    Matrix operator * (Matrix n2);
-    Matrix operator / (Matrix n2);
+    Matrix operator + (Matrix m2);
+    Matrix operator - (Matrix m2);
+    Matrix operator * (Matrix m2);
+    friend Matrix operator * (Number n1, Matrix m2);
+    Matrix operator * (Number n1);
+    Matrix operator / (Matrix m2);
     
-    Matrix multiplyByNumber(Number n);
     Matrix transpose();
     Matrix getMinor(int row, int col);
     Number determinant();

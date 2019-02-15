@@ -78,23 +78,28 @@ Matrix Matrix::operator * (Matrix m2)
     return slow_multiply(*this,m2);
 }
 
+Matrix operator * (Number n1, Matrix m2)
+{
+    return m2 * n1;
+}
+
+Matrix Matrix::operator * (Number n2)
+{
+    Matrix result = *this;
+    for (int i = 0; i < getN(); i++) {
+        for (int j = 0; j < getM(); j++) {
+            result.setNumber(i,j,n2*getNumber(i,j));
+        }
+    }
+    return result;
+}
+
 Matrix Matrix::operator / (Matrix m2)
 {
     if (n != m2.getN() || m != m2.getM() || n != m) {
         return Matrix(0,0);
     }
     return (*this)*m2.inverse();
-}
-
-Matrix Matrix::multiplyByNumber(Number n)
-{
-    Matrix result = *this;
-    for (int i = 0; i < getN(); i++) {
-        for (int j = 0; j < getM(); j++) {
-            result.setNumber(i,j,n*getNumber(i,j));
-        }
-    }
-    return result;
 }
 
 Matrix Matrix::transpose()
@@ -174,7 +179,7 @@ Matrix Matrix::inverse()
             minors.setNumber(i,j,sign*determinant(getMinor(i,j)));
         }
     }
-    return minors.transpose().multiplyByNumber(det.inverse());
+    return minors.transpose()*det.inverse();
 }
 
 Matrix Matrix::slow_multiply(Matrix a, Matrix b)
