@@ -1,4 +1,4 @@
-SOURCE = main.o Vector.o Matrix.o Number.o
+SOURCE = main.o Poly.o Vector.o Matrix.o Number.o
 CC = g++
 CFLAGS = -g -Wall
 INCLUDE = -c -I.
@@ -10,6 +10,9 @@ matrix: $(SOURCE)
 	
 main.o: main.cpp Matrix.h Vector.h
 	$(CC) $(INCLUDE) main.cpp
+	
+Poly.o: Poly.cpp Poly.h Vector.h Number.h
+	$(CC) $(INCLUDE) Poly.cpp
 	
 Vector.o: Vector.cpp Vector.h Matrix.h
 	$(CC) $(INCLUDE) Vector.cpp

@@ -12,6 +12,8 @@ template<class U> Vector<U> operator * (Matrix m, Vector<U> v);
 template<class T> class Vector
 {
 public:
+    Vector():
+    vec() {}
     Vector(int dim):
     vec(dim,T()) {}
     Vector(vector<T> v):
@@ -28,6 +30,7 @@ public:
     Vector<T> operator + (Vector<T> v2);
     Vector<T> operator - (Vector<T> v2);
     template<class U> friend Vector<U> operator * (Matrix m, Vector<U> v);
+    inline T& operator [] (int pos) {return vec[pos];}
     
     T dot(Vector<T> v2);
     Vector<T> cross(Vector<T> v2);
