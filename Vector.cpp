@@ -1,72 +1,72 @@
 #include "Vector.h"
 
-Vector Vector::operator - ()
+template<class T> Vector<T> Vector<T>::operator - ()
 {
     int n = getDimension();
-    Vector result(n);
+    Vector<T> result(n);
     for (int i = 0; i < n; i++) {
-        result.setNumber(i,-vec[i]);
+        result.setVal(i,-vec[i]);
     }
     return result;
 }
 
-Vector Vector::operator + (Vector v2)
+template<class T> Vector<T> Vector<T>::operator + (Vector<T> v2)
 {
     int n = getDimension();
-    Vector result(n);
+    Vector<T> result(n);
     if (n != v2.getDimension()) {
         return result;
     }
     for (int i = 0; i < n; i++) {
-        result.setNumber(i,vec[i] + v2.getNumber(i));
+        result.setVal(i,vec[i] + v2.getNumber(i));
     }
     return result;
 }
 
-Vector Vector::operator - (Vector v2)
+template<class T> Vector<T> Vector<T>::operator - (Vector<T> v2)
 {
     int n = getDimension();
-    Vector result(n);
+    Vector<T> result(n);
     if (n != v2.getDimension()) {
         return result;
     }
     for (int i = 0; i < n; i++) {
-        result.setNumber(i,vec[i] - v2.getNumber(i));
+        result.setVal(i,vec[i] - v2.getVal(i));
     }
     return result;
 }
 
-Vector operator * (Matrix m, Vector v)
+template<class U> Vector<U> operator * (Matrix m, Vector<U> v)
 {
-    Vector result(v.getDimension());
+    Vector<U> result(v.getDimension());
     if (v.getDimension() != m.getM()) {
         return result;
     }
     for (int i = 0; i < m.getN(); i++) {
-        Number temp;
+        U temp;
         for (int j = 0; j < m.getM(); j++) {
-            temp += m.getNumber(i,j)*v.getNumber(j);
+            temp += m.getNumber(i,j)*v.getVal(j);
         }
-        result.setNumber(i,temp);
+        result.setVal(i,temp);
     }
     return result;
 }
 
-Number Vector::dot(Vector v2)
+template<class T> T Vector<T>::dot(Vector<T> v2)
 {
     int n = getDimension();
-    Number result;
+    T result;
     if (n != v2.getDimension()) {
         return result;
     }
     for (int i = 0; i < n; i++) {
-        result += vec[i] * v2.getNumber(i);
+        result += vec[i] * v2.getVal(i);
     }
     return result;
 }
     
 
-void Vector::print()
+template<class T> void Vector<T>::print()
 {
     for (auto n : vec) {
         n.print();

@@ -11,7 +11,7 @@ matrix: $(SOURCE)
 main.o: main.cpp Matrix.h Vector.h
 	$(CC) $(INCLUDE) main.cpp
 	
-Vector.o: Vector.cpp Vector.h Matrix.h Number.h
+Vector.o: Vector.cpp Vector.h Matrix.h
 	$(CC) $(INCLUDE) Vector.cpp
 	
 Matrix.o: Matrix.cpp Matrix.h Number.h

@@ -2,38 +2,40 @@
 #define VECTOR_H
 
 #include "Matrix.h"
-#include "Number.h"
 
 #include <iostream>
 using namespace std;
 
-class Vector
+template<class T> class Vector;
+template<class U> Vector<U> operator * (Matrix m, Vector<U> v);
+
+template<class T> class Vector
 {
 public:
     Vector(int dim):
-    vec(dim,Number()) {}
-    Vector(vector<Number> v):
+    vec(dim,T()) {}
+    Vector(vector<T> v):
     vec(v) {}
-    Vector(const Vector &v):
+    Vector(const Vector<T> &v):
     vec(v.vec) {}
     
     inline int getDimension() {return vec.size();}
-    inline Number getNumber(int pos) {return vec[pos];}
-    inline void setNumber(int pos, Number num) {vec[pos] = num;}
+    inline T getVal(int pos) {return vec[pos];}
+    inline void setVal(int pos, T val) {vec[pos] = val;}
     
     // Overload operators
-    Vector operator - ();
-    Vector operator + (Vector v2);
-    Vector operator - (Vector v2);
-    friend Vector operator * (Matrix m, Vector v);
+    Vector<T> operator - ();
+    Vector<T> operator + (Vector<T> v2);
+    Vector<T> operator - (Vector<T> v2);
+    template<class U> friend Vector<U> operator * (Matrix m, Vector<U> v);
     
-    Number dot(Vector v2);
-    Vector cross(Vector v2);
+    T dot(Vector<T> v2);
+    Vector<T> cross(Vector<T> v2);
     
     void print();
     
 private:
-    vector<Number> vec;
+    vector<T> vec;
 };
 
 #endif //VECTOR_H
