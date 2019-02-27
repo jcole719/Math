@@ -69,8 +69,7 @@ template<class T> T Vector<T>::dot(Vector<T> v2)
 template<class T> void Vector<T>::print()
 {
     for (auto n : vec) {
-        n.print();
-        cout << " ";
+        cout << n << " ";
     }
     cout << '\n';
 }
