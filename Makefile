@@ -6,7 +6,7 @@ INCLUDE = -c -I.
 all: matrix
 
 matrix: $(SOURCE)
-	$(CC) $(CFLAGS) -I. $(SOURCE) -o matrix.exe
+	$(CC) $(CFLAGS) -I. $(SOURCE) -o math.exe
 	
 main.o: main.cpp Matrix.h Vector.h
 	$(CC) $(INCLUDE) main.cpp
@@ -24,4 +24,4 @@ Number.o: Number.cpp Number.h
 	$(CC) $(INCLUDE) Number.cpp
 	
 clean: 
-	rm -rf *.o matrix.exe
+	rm -rf *.o math.exe

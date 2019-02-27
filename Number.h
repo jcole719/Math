@@ -27,9 +27,11 @@ public:
     Number& operator += (Number n2);
     bool operator == (Number n2);
     bool operator != (Number n2);
+    friend ostream & operator << (ostream &out, Number &n);
     
     Number inverse();
     void print();
+    string toString();
     
 private:
     double real;

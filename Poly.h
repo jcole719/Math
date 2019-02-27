@@ -28,11 +28,12 @@ public:
     Poly operator / (Poly p2);
     
     Vector<Number> fill(Poly p, int size);
-    Vector<Number> fft(Vector<Number> p);
+    Vector<Number> fft(Vector<Number> p, double in);
+    double round(double num);
     Vector<Number> split(char s, Vector<Number> p);
     Vector<Number> point_mult(Vector<Number> p1, Vector<Number> p2);
     
-    void print(char var);
+    void print(string var);
     
 private:
     Vector<Number> poly;

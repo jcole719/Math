@@ -46,10 +46,11 @@ Poly Poly::operator * (Poly p2)
     }
     Vector<Number> p0 = fill(*this,2*n);
     Vector<Number> p1 = fill(p2,2*n);
-    p0 = fft(p0);
-    p1 = fft(p1);
+    p0 = fft(p0,1.0);
+    p1 = fft(p1,1.0);
     Vector<Number> result = point_mult(p0,p1);
-    return Poly(fft(result));
+    result = fft(result,-1.0);
+    return (Number(1.0,0.0)/Number((double) 2*n,0.0))*Poly(result);
 }
 
 Vector<Number> Poly::fill(Poly p, int size)
@@ -61,19 +62,19 @@ Vector<Number> Poly::fill(Poly p, int size)
     return result;
 }
 
-Vector<Number> Poly::fft(Vector<Number> p)
+Vector<Number> Poly::fft(Vector<Number> p, double in)
 {
     int n = p.getDimension();
     if (n == 1) {
         return p;
     }
-    double arg = 8.0*atan(1.0)/((double) n);
-    Number omega_n(cos(arg),sin(arg));
+    double arg = 8.0*atan(1.0)/n;
+    Number omega_n(round(cos(in*arg)),round(sin(in*arg)));
     Number omega(1.0,0.0);
     Vector<Number> p0 = split('e',p);
     Vector<Number> p1 = split('o',p);
-    Vector<Number> y0 = fft(p0);
-    Vector<Number> y1 = fft(p1);
+    Vector<Number> y0 = fft(p0,in);
+    Vector<Number> y1 = fft(p1,in);
     Vector<Number> result(n);
     for (int i = 0; i < n/2; i++) {
         result[i] = y0[i] + omega*y1[i];
@@ -83,9 +84,17 @@ Vector<Number> Poly::fft(Vector<Number> p)
     return result;
 }
 
+double Poly::round(double num)
+{
+    if (num < 1.3e-16 && num > -1.3e-16) {
+        return 0.0;
+    }
+    return num;
+}
+
 Vector<Number> Poly::split(char s, Vector<Number> p)
 {
-    int n = p.getDimension()/2 - 1;
+    int n = p.getDimension()/2;
     Vector<Number> result(n);
     int count = 0; 
     for (int i = 0; i < p.getDimension(); i++) {
@@ -117,4 +126,24 @@ Poly operator * (Number n, Poly p)
         result.setCoefficient(i,n * p.getCoefficient(i));
     }
     return result;
+}
+
+void Poly::print(string var)
+{
+    string result = "";
+    for (int i = 0; i < poly.getDimension(); i++) {
+        if (poly[i] != Number(0.0,0.0)) {
+            if (i == 0) {
+                result = poly[i].toString() + " ";
+            }
+            else if (i == 1) {
+                result += poly[i].toString() + var + " ";
+            }
+            else {
+                result += poly[i].toString() + var + to_string(i) + " ";
+            }
+            result += "+ ";
+        }
+    }
+    cout << result.substr(0,result.length()-2) << '\n';
 }

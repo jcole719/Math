@@ -60,6 +60,21 @@ bool Number::operator != (Number n2)
     return true;
 }
 
+ostream & operator << (ostream &out, Number &n)
+{
+    out << '(';
+    if (n.real != 0.0) {
+        out << n.real;
+    }
+    if (n.real != 0.0 && n.imaginary != 0.0) {
+        out << '+';
+    }
+    if (n.imaginary != 0.0) {
+        out << n.imaginary << 'i';
+    }
+    out << ')';
+}
+
 Number Number::inverse()
 {
     double mag_square = pow(magnitude(),2);
@@ -70,5 +85,31 @@ Number Number::inverse()
 
 void Number::print()
 {
-    cout << real << '+' << imaginary << 'i';
+    cout << '(';
+    if (real != 0.0) {
+        cout << real;
+    }
+    if (real != 0.0 && imaginary != 0.0) {
+        cout << '+';
+    }
+    if (imaginary != 0.0) {
+        cout << imaginary << 'i';
+    }
+    cout << ')';
+}
+
+string Number::toString()
+{
+    string result = "(";
+    if (real != 0.0) {
+        result = result + to_string(real);
+    }
+    if (real != 0.0 && imaginary != 0.0) {
+        result = result + "+";
+    }
+    if (imaginary != 0.0) {
+        result = result + to_string(imaginary) + "i";
+    }
+    result = result + ")";
+    return result;
 }
