@@ -36,7 +36,7 @@ template<class T> Vector<T> Vector<T>::operator - (Vector<T> v2)
     return result;
 }
 
-template<class U> Vector<U> operator * (Matrix m, Vector<U> v)
+template<class U> Vector<U> operator * (Matrix<U> m, Vector<U> v)
 {
     Vector<U> result(v.getDimension());
     if (v.getDimension() != m.getM()) {

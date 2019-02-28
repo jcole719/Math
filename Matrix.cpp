@@ -1,17 +1,17 @@
 #include "Matrix.h"
 
-Matrix::Matrix(int i, int j)
+template<class T> Matrix<T>::Matrix(int i, int j)
 {
-    matrix = vector< vector<Number> >(i,vector<Number>(j,Number()));
+    matrix = vector< vector<T> >(i,vector<T>(j,T()));
     n = i;
     m = j;
 }
 
-Matrix::Matrix(const Matrix &mat)
+template<class T> Matrix<T>::Matrix(const Matrix<T> &mat)
 {
     n = mat.n;
     m = mat.m;
-    matrix = vector< vector<Number> >(n,vector<Number>(m,Number()));
+    matrix = vector< vector<T> >(n,vector<T>(m,T()));
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < m; j++) {
             setNumber(i,j,mat.matrix[i][j]);
@@ -19,11 +19,11 @@ Matrix::Matrix(const Matrix &mat)
     }
 }
 
-Matrix::Matrix(vector< vector<Number> > mat)
+template<class T> Matrix<T>::Matrix(vector< vector<T> > mat)
 {
     this->n = mat.size();
     this->m = mat[0].size();
-    matrix = vector< vector<Number> >(n,vector<Number>(m,Number()));
+    matrix = vector< vector<T> >(n,vector<T>(m,T()));
     for (int i = 0; i < mat.size(); i++) {
         for (int j = 0; j < mat[i].size(); j++) {
             matrix[i][j] = mat[i][j];
@@ -31,9 +31,9 @@ Matrix::Matrix(vector< vector<Number> > mat)
     }
 }
 
-Matrix Matrix::operator - ()
+template<class T> Matrix<T> Matrix<T>::operator - ()
 {
-    Matrix result(n,m);
+    Matrix<T> result(n,m);
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < m; j++) {
             result.setNumber(i,j,-matrix[i][j]);
@@ -42,12 +42,12 @@ Matrix Matrix::operator - ()
     return result;
 }
 
-Matrix Matrix::operator + (Matrix m2)
+template<class T> Matrix<T> Matrix<T>::operator + (Matrix<T> m2)
 {
     if (n != m2.getN() || m != m2.getM()) {
-        return Matrix(0,0);
+        return Matrix<T>(0,0);
     }
-    Matrix result(n,m);
+    Matrix<T> result(n,m);
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < m; j++) {
             result.setNumber(i,j,matrix[i][j]+m2.getNumber(i,j));
@@ -56,12 +56,12 @@ Matrix Matrix::operator + (Matrix m2)
     return result;
 }
 
-Matrix Matrix::operator - (Matrix m2)
+template<class T> Matrix<T> Matrix<T>::operator - (Matrix<T> m2)
 {
     if (n != m2.getN() || m != m2.getM()) {
-        return Matrix(0,0);
+        return Matrix<T>(0,0);
     }
-    Matrix result(n,m);
+    Matrix<T> result(n,m);
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < m; j++) {
             result.setNumber(i,j,matrix[i][j]-m2.getNumber(i,j));
@@ -70,22 +70,22 @@ Matrix Matrix::operator - (Matrix m2)
     return result;
 }
 
-Matrix Matrix::operator * (Matrix m2)
+template<class T> Matrix<T> Matrix<T>::operator * (Matrix<T> m2)
 {
     if (n != m2.getM() || m != m2.getN()) {
-        return Matrix(0,0);
+        return Matrix<T>(0,0);
     }
     return slow_multiply(*this,m2);
 }
 
-Matrix operator * (Number n1, Matrix m2)
+template<class U> Matrix<U> operator * (U n1, Matrix<U> m2)
 {
     return m2 * n1;
 }
 
-Matrix Matrix::operator * (Number n2)
+template<class T> Matrix<T> Matrix<T>::operator * (T n2)
 {
-    Matrix result = *this;
+    Matrix<T> result = *this;
     for (int i = 0; i < getN(); i++) {
         for (int j = 0; j < getM(); j++) {
             result.setNumber(i,j,n2*getNumber(i,j));
@@ -94,17 +94,17 @@ Matrix Matrix::operator * (Number n2)
     return result;
 }
 
-Matrix Matrix::operator / (Matrix m2)
+template<class T> Matrix<T> Matrix<T>::operator / (Matrix<T> m2)
 {
     if (n != m2.getN() || m != m2.getM() || n != m) {
-        return Matrix(0,0);
+        return Matrix<T>(0,0);
     }
     return (*this)*m2.inverse();
 }
 
-Matrix Matrix::transpose()
+template<class T> Matrix<T> Matrix<T>::transpose()
 {
-    Matrix result(m,n);
+    Matrix<T> result(m,n);
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < m; j++) {
             result.setNumber(j,i,matrix[i][j]);
@@ -113,9 +113,9 @@ Matrix Matrix::transpose()
     return result;
 }
 
-Matrix Matrix::getMinor(int row, int col)
+template<class T> Matrix<T> Matrix<T>::getMinor(int row, int col)
 {
-    Matrix result(n-1,m-1);
+    Matrix<T> result(n-1,m-1);
     int rr = 0;
     for (int i = 0; i < n; i++) {
         int rc = 0;
@@ -133,17 +133,17 @@ Matrix Matrix::getMinor(int row, int col)
     return result;
 }
 
-Number Matrix::determinant()
+template<class T> T Matrix<T>::determinant()
 {
     return determinant(*this);
 }
 
-Number Matrix::determinant(Matrix mat)
+template<class T> T Matrix<T>::determinant(Matrix<T> mat)
 {
-    Number result;
+    T result;
     int k = mat.getN();
     if (k != mat.getM()) {
-        return Number();
+        return T();
     }
     Number sign(1.0,0.0);
     if (k == 1) {
@@ -159,14 +159,14 @@ Number Matrix::determinant(Matrix mat)
     return result;
 }
 
-Matrix Matrix::inverse()
+template<class T> Matrix<T> Matrix<T>::inverse()
 {
-    Number zero;
-    Number det = determinant();
+    T zero;
+    T det = determinant();
     if (det == zero) {
-        return Matrix(0,0);
+        return Matrix<T>(0,0);
     }
-    Matrix minors(n,m);
+    Matrix<T> minors(n,m);
     Number sign(1.0,0.0);
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < m; j++) {
@@ -182,11 +182,11 @@ Matrix Matrix::inverse()
     return minors.transpose()*det.inverse();
 }
 
-Matrix Matrix::slow_multiply(Matrix a, Matrix b)
+template<class T> Matrix<T> Matrix<T>::slow_multiply(Matrix<T> a, Matrix<T> b)
 {
     int n = a.getN();
     int m = a.getM();
-    Matrix result(n,b.getM());
+    Matrix<T> result(n,b.getM());
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < b.getM(); j++) {
             for (int k = 0; k < m; k++) {
@@ -197,33 +197,33 @@ Matrix Matrix::slow_multiply(Matrix a, Matrix b)
     return result;
 }
 
-Matrix Matrix::swapRow(int r1, int r2)
+template<class T> Matrix<T> Matrix<T>::swapRow(int r1, int r2)
 {
-    Matrix result = *this;
+    Matrix<T> result = *this;
     result.setRow(r1,getRow(r2));
     result.setRow(r2,getRow(r1));
     return result;
 }
 
-Matrix Matrix::rowNumMult(int row, Number num)
+template<class T> Matrix<T> Matrix<T>::rowNumMult(int row, T num)
 {
-    Matrix result = *this;
+    Matrix<T> result = *this;
     for (int i = 0; i < m; i++) {
         result.setNumber(row,i,num * getNumber(row,i));
     }
     return result;
 }
 
-Matrix Matrix::rowRowMult(int r1, int r2, Number mult)
+template<class T> Matrix<T> Matrix<T>::rowRowMult(int r1, int r2, T mult)
 {
-    Matrix result = *this;
+    Matrix<T> result = *this;
     for (int i = 0; i < m; i++) {
         result.setNumber(r1,i,getNumber(r1,i) + mult * getNumber(r2,i));
     }
     return result;
 }
 
-bool Matrix::isREForm(Matrix m)
+template<class T> bool Matrix<T>::isREForm(Matrix<T> m)
 {
     int pivot = -1;
     Number zero(0.0,0.0);
@@ -257,16 +257,7 @@ bool Matrix::isREForm(Matrix m)
     return true;
 }
 
-Matrix Matrix::identity(int n)
-{
-    Matrix result(n,n);
-    for (int i = 0; i < n; i++) {
-        result.setNumber(i,i,Number(1.0,0.0));
-    }
-    return result;
-}
-
-void Matrix::print()
+template<class T> void Matrix<T>::print()
 {
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < m; j++) {

@@ -7,7 +7,7 @@
 using namespace std;
 
 template<class T> class Vector;
-template<class U> Vector<U> operator * (Matrix m, Vector<U> v);
+template<class U> Vector<U> operator * (Matrix<U> m, Vector<U> v);
 
 template<class T> class Vector
 {
@@ -29,7 +29,7 @@ public:
     Vector<T> operator - ();
     Vector<T> operator + (Vector<T> v2);
     Vector<T> operator - (Vector<T> v2);
-    template<class U> friend Vector<U> operator * (Matrix m, Vector<U> v);
+    template<class U> friend Vector<U> operator * (Matrix<U> m, Vector<U> v);
     inline T& operator [] (int pos) {return vec[pos];}
     
     T dot(Vector<T> v2);
