@@ -24,6 +24,7 @@ public:
     Poly operator + (Poly p2);
     Poly operator - (Poly p2);
     Poly operator * (Poly p2);
+    Poly operator * (Number n);
     friend Poly operator * (Number n, Poly p);
     Poly operator / (Poly p2);
     

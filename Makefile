@@ -1,15 +1,18 @@
-SOURCE = main.o Poly.o Vector.o Matrix.o Number.o
+SOURCE = main.o SysofEquations.o Poly.o Vector.o Matrix.o Number.o
 CC = g++
 CFLAGS = -g -Wall
 INCLUDE = -c -I.
 
-all: matrix
+all: math
 
-matrix: $(SOURCE)
+math: $(SOURCE)
 	$(CC) $(CFLAGS) -I. $(SOURCE) -o math.exe
 	
-main.o: main.cpp Matrix.h Vector.h
+main.o: main.cpp SysofEquations.h Poly.h Matrix.h Vector.h
 	$(CC) $(INCLUDE) main.cpp
+	
+SysofEquations.o: SysofEquations.cpp SysofEquations.h Number.h
+	$(CC) $(INCLUDE) SysofEquations.cpp
 	
 Poly.o: Poly.cpp Poly.h Vector.h Number.h
 	$(CC) $(INCLUDE) Poly.cpp

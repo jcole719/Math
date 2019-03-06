@@ -119,13 +119,18 @@ Vector<Number> Poly::point_mult(Vector<Number> p1, Vector<Number> p2)
     return result;
 }
 
-Poly operator * (Number n, Poly p)
+Poly Poly::operator * (Number n)
 {
-    Poly result(p);
-    for (int i = 0; i < p.getDegree(); i++) {
-        result.setCoefficient(i,n * p.getCoefficient(i));
+    Poly result(poly);
+    for (int i = 0; i < poly.getDimension(); i++) {
+        result.setCoefficient(i,poly[i]*n);
     }
     return result;
+}
+
+Poly operator * (Number n, Poly p)
+{
+    return p * n;
 }
 
 void Poly::print(string var)
